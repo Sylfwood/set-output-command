@@ -1,0 +1,28 @@
+name: Test Set Output
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Test outputs
+        id: test
+        uses: ./set-output
+
+      - name: Verify old way of setting output
+        if: ${{ steps.test.outputs.output_old != '12345' }}
+        uses: actions/github-script@v6
+        with:
+          script: core.setFailed('error! Should be "12345", but the value is "${{ steps.test.outputs.output_old }}"')
+
+      - name: Verify new way of setting output
+        if: ${{ steps.test.outputs.output_new != '54321' }}
+        uses: actions/github-script@v6
+        with:
+          script: core.setFailed('error! Should be "54321", but the value is "${{ steps.test.outputs.output_new }}"')

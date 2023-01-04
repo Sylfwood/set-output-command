@@ -1,0 +1,22 @@
+name: set-output
+description: Set outputs using both ways
+
+outputs:
+  output_old:
+    description: output set with > echo "::set-output name=output_old::12345"
+    value: ${{ steps.set-output-old.outputs.output_old }}
+  output_new:
+    description: output set with > echo "output_new=54321" >> $GITHUB_OUTPUT
+    value: ${{ steps.set-output-new.outputs.output_new }}
+
+runs:
+  using: composite
+
+  steps:
+    - id: set-output-old
+      run: echo "::set-output name=output_old::12345"
+      shell: bash
+
+    - id: set-output-new
+      run: echo "output_new=54321" >> $GITHUB_OUTPUT
+      shell: bash
