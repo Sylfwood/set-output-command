@@ -15,8 +15,8 @@ runs:
   steps:
     - id: set-output-old
       run: echo "::set-output name=output_old::12345"
-      shell: bash
+      shell: pwsh
 
     - id: set-output-new
       run: echo "output_new=54321" >> $GITHUB_OUTPUT
-      shell: bash
+      shell: pwsh
